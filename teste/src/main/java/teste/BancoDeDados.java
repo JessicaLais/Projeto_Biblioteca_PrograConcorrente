@@ -135,5 +135,60 @@ public void alugarLivro(String nomeDoLivro) throws Exception {
                 }
             }
         } 
+        JsonNode listaAlugados = alugados.path("livros");
+        Iterator<JsonNode> elements = listaAlugados.elements();
+        
+        while (elements.hasNext()) {
+            JsonNode next = elements.next();
+            if(next.get("nome").asText().equalsIgnoreCase(nomeDoLivro)) { 
+                ((ObjectNode)next).put("exemplares", next.get("exemplares").asInt() - 1);
+                if (next.get("exemplares").asInt() <= 0) {
+                    elements.remove(); //remove o livro da biblioteca
+                }
+            }
+        }
+        ((ObjectNode) alugados).set("livros", listaAlugados); //atualiza os livros
+        ((ObjectNode) livros).set("livros", listaLivros); //atualiza os livros
+
+        Files.deleteIfExists(Path.of("livros.json"));
+        BufferedWriter writer = new BufferedWriter(new FileWriter("livros.json"));
+        writer.write(ConversorJson.jsonNodeParaString(livros)); //atualiza o arquivo
+        writer.close();
+    
+        Files.deleteIfExists(Path.of("alugados.json"));
+        writer = new BufferedWriter(new FileWriter("alugados.json"));
+        writer.write(ConversorJson.jsonNodeParaString(alugados)); //atualiza o arquivo
+        writer.close();
     }
+
+    public static void adicionarLivro(Livro livro) throws IOException {
+        ArrayNode listaDeLivros = (ArrayNode) livros.path("livros");
+        listaDeLivros.add(ConversorJson.objetoParaJsonNode(livro)); //adiciona o livro
+
+        ((ObjectNode) livros).set("livros", listaDeLivros);
+        Files.deleteIfExists(Path.of("livros.json"));
+        BufferedWriter writer = new BufferedWriter(new FileWriter("livros.json"));
+        writer.write(ConversorJson.jsonNodeParaString(livros)); //atualiza o arquivo
+        writer.close();
     }
+
+    public static void remover(String nomeDoLivro) throws Exception {
+        if (!contemLivro(getLivrosList(livros), nomeDoLivro)) throw new Exception(); //verifica se o livro existe
+        
+        JsonNode listaDeLivros = livros.path("livros");
+        Iterator<JsonNode> elements = listaDeLivros.elements();
+        
+        while (elements.hasNext()) {
+            JsonNode next = elements.next();
+            if(next.get("nome").asText().equalsIgnoreCase(nomeDoLivro)) { 
+                elements.remove(); //remove o livro
+            }
+        }
+        ((ObjectNode) livros).set("livros", listaDeLivros);
+
+        Files.deleteIfExists(Path.of("livros.json"));
+        BufferedWriter writer = new BufferedWriter(new FileWriter("livros.json"));
+        writer.write(ConversorJson.jsonNodeParaString(livros)); //atualiza o arquivo
+        writer.close();
+    }
+}
