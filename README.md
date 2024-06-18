@@ -36,18 +36,21 @@ Antes de começar, você precisará ter o seguinte instalado em sua máquina:
 1. Clone o repositório:
 
     ```bash
-    git clone https://github.com/seu-usuario/seu-repositorio.git
-    cd seu-repositorio
+    git clone https://github.com/JessicaLais/Projeto_Biblioteca_PrograConcorrente.git
+    cd Projeto_Biblioteca_PrograConcorrente.git
     ```
+2.Com o repositório clonado escreva no cmd \Projeto_Biblioteca_PrograConcorrente\teste, 
+Após isso colocar o mvn clean install(Projeto_Biblioteca_PrograConcorrente\teste > mvn clena install)
 
-2. Abra o Eclipse IDE.
+3. Abra o Eclipse IDE.
 
-3. Importe o projeto Maven existente:
+4. Importe o projeto Maven existente:
     - Vá em **File** > **Import...**
     - Selecione **Existing Maven Projects** e clique em **Next**.
     - Navegue até o diretório do projeto clonado e clique em **Finish**.
 
-4. Certifique-se de que os arquivos `livros.json` e `alugados.json` estão presentes no diretório raiz do projeto. Estes arquivos devem conter a estrutura JSON necessária para o funcionamento do sistema.
+5. Certifique-se de que os arquivos `livros.json` e `alugados.json` estão presentes no diretório raiz do projeto. Estes arquivos devem conter a estrutura JSON necessária para o funcionamento do sistema.
+
 
 ### Estrutura dos Arquivos JSON
 
