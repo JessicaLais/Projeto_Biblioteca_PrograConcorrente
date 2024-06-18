@@ -1,0 +1,53 @@
+{
+  "livros" : [ {
+    "autor" : "Marco Aurélio",
+    "nome" : "Meditações",
+    "genero" : "Filosofia",
+    "exemplares" : 4
+  }, {
+    "autor" : "Jane Austen",
+    "nome" : "Orgulho e Preconceito",
+    "genero" : "Romance",
+    "exemplares" : 4
+  }, {
+    "autor" : "David Goggins",
+    "nome" : "Nada Pode Me Ferir",
+    "genero" : "Autoajuda",
+    "exemplares" : 2
+  }, {
+    "autor" : "H.G. Wells",
+    "nome" : "O Homem Invisível",
+    "genero" : "Ficção Científica",
+    "exemplares" : 1
+  }, {
+    "autor" : "Thomas More",
+    "nome" : "Utopia",
+    "genero" : "Filosofia",
+    "exemplares" : 14
+  }, {
+    "autor" : "George Orwell",
+    "nome" : "A Revolução dos Bichos",
+    "genero" : "Fábula Política",
+    "exemplares" : 1
+  }, {
+    "autor" : "C.S. Lewis",
+    "nome" : "As Crônicas de Nárnia",
+    "genero" : "Fantasia",
+    "exemplares" : 8
+  }, {
+    "autor" : "Tomás Antônio Gonzaga",
+    "nome" : "Cartas Chilenas",
+    "genero" : "Sátira",
+    "exemplares" : 3
+  }, {
+    "autor" : "Nicolau Maquiavel",
+    "nome" : "O Príncipe",
+    "genero" : "Filosofia Política",
+    "exemplares" : 1
+  }, {
+    "autor" : "Douglas Adams",
+    "nome" : "O Guia do Mochileiro das Galáxias",
+    "genero" : "Ficção Científica",
+    "exemplares" : 10
+  } ]
+}
