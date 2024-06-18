@@ -69,4 +69,71 @@ public class BancoDeDados {
         }
         return null;
     }
-}
+
+public void alugarLivro(String nomeDoLivro) throws Exception {
+        if (!contemLivro(getLivrosList(livros), nomeDoLivro)) throw new Exception(); //verifica se o livro existe
+        
+        Livro livro = pegarLivroDaLista(getLivrosList(livros), nomeDoLivro); //pega o livro
+
+        ArrayNode listaAlugados = (ArrayNode) alugados.path("livros");
+
+        if (!contemLivro(getLivrosList(alugados), nomeDoLivro)) {
+            ((ArrayNode)listaAlugados).add(((ObjectNode)ConversorJson.objetoParaJsonNode(livro)).put("exemplares", 1)); //adiciona o livro
+        } else {
+            Iterator<JsonNode> elements = listaAlugados.elements();
+        
+            while (elements.hasNext()) {
+                JsonNode next = elements.next();
+                if(next.get("nome").asText().equalsIgnoreCase(nomeDoLivro)) { 
+                    ((ObjectNode)next).put("exemplares", next.get("exemplares").asInt() + 1);
+                }
+            }
+        }
+
+        JsonNode listaLivros = livros.path("livros");
+        Iterator<JsonNode> elements = listaLivros.elements();
+        
+        while (elements.hasNext()) {
+            JsonNode next = elements.next();
+            if(next.get("nome").asText().equalsIgnoreCase(nomeDoLivro)) { 
+                ((ObjectNode)next).put("exemplares", next.get("exemplares").asInt() - 1);
+                if (next.get("exemplares").asInt() <= 0) {
+                    elements.remove(); //remove o livro da biblioteca
+                }
+            }
+        }
+        ((ObjectNode) alugados).set("livros", listaAlugados); //atualiza os livros
+        ((ObjectNode) livros).set("livros", listaLivros); //atualiza os livros
+
+        Files.deleteIfExists(Path.of("livros.json"));
+        BufferedWriter writer = new BufferedWriter(new FileWriter("livros.json"));
+        writer.write(ConversorJson.jsonNodeParaString(livros)); //atualiza o arquivo
+        writer.close();
+    
+        Files.deleteIfExists(Path.of("alugados.json"));
+        writer = new BufferedWriter(new FileWriter("alugados.json"));
+        writer.write(ConversorJson.jsonNodeParaString(alugados)); //atualiza o arquivo
+        writer.close();
+    }
+
+    public static void devolverLivro(String nomeDoLivro) throws Exception {
+        if (!contemLivro(getLivrosList(alugados), nomeDoLivro)) throw new Exception(); //verifica se o livro existe
+        
+        Livro livro = pegarLivroDaLista(getLivrosList(alugados), nomeDoLivro); //pega o livro
+
+        ArrayNode listaLivros = (ArrayNode) livros.path("livros");
+
+        if (!contemLivro(getLivrosList(livros), nomeDoLivro)) {
+            ((ArrayNode)listaLivros).add(((ObjectNode)ConversorJson.objetoParaJsonNode(livro)).put("exemplares", 1)); //adiciona o livro
+        } else {
+            Iterator<JsonNode> elements = listaLivros.elements();
+        
+            while (elements.hasNext()) {
+                JsonNode next = elements.next();
+                if(next.get("nome").asText().equalsIgnoreCase(nomeDoLivro)) { 
+                    ((ObjectNode)next).put("exemplares", next.get("exemplares").asInt() + 1);
+                }
+            }
+        } 
+    }
+    }
